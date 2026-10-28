@@ -1,145 +1,122 @@
 # Migration Guide for Pending Features
 
-This guide documents pending pull requests that introduce new features, configurations, or breaking changes. Review this guide before upgrading to the next version.
+This document outlines the migration path and implementation details for all open pull requests in the repository.
 
 ---
 
-## PR #23 - docs: add comprehensive label guide (closes #13)
+## PR #23: docs: add comprehensive label guide (closes #13)
 
-### Title
-docs: add comprehensive label guide (closes #13)
+### Summary
+This PR creates comprehensive documentation for all 27 repository labels, organizing them into structured categories to improve visual organization and streamline issue triage workflows.
 
-### Summary of Changes
-This PR introduces comprehensive documentation for all 27 repository labels, organized into 7 logical categories:
-- **issue-type**: Categories for the type of issue
-- **priority**: Priority levels for issues
-- **platform**: Platform-specific labels (macOS, Linux, Windows)
-- **area**: Feature area labels (core, tools, api)
-- **status**: Status lifecycle labels
-- **contribution**: Contribution type labels
-- **documentation**: Documentation-related labels
+### Changes
+- Created `docs/LABEL_COLORS.md` with complete label documentation
+- Organized labels into 7 categories: issue-type, priority, platform, area, status, contribution, documentation
+- Added clear descriptions and "when to use" guidance for each label
+- Included status lifecycle diagram and usage guidelines
+- Added label color reference table
 
-### Key Changes
-- **New Configuration**: None
-- **New Environment Variables**: None
-- **Breaking Changes**: None
+### New Configuration/Environment Variables
+None - This is a documentation-only PR.
 
-### Installation / Usage Instructions
-- Review the new `docs/LABEL_COLORS.md` file for complete label reference
-- Labels are now organized with clear visual hierarchy
-- Follow the new labeling guidelines when creating or updating issues
+### Installation/Usage Instructions
+1. Review the label guide at `docs/LABEL_COLORS.md`
+2. Apply appropriate labels to new issues and pull requests
+3. Follow the categorization guidelines for consistent labeling
+4. Reference the lifecycle diagram for issue status transitions
 
 ---
 
-## PR #16 - HOTFIX: Critical memory optimization for issues #49 and #46
+## PR #16: HOTFIX: Critical memory optimization for issues #49 and #46
 
-### Title
-HOTFIX: Critical memory optimization for issues #49 and #46
-
-### Summary of Changes
-Critical memory optimization changes addressing severe context management and JavaScript heap exhaustion issues affecting Claude Code v1.0.72.
+### Summary
+This hotfix implements critical memory optimization changes to address severe context management and JavaScript heap exhaustion issues affecting Claude Code v1.0.72.
 
 ### Critical Issues Addressed
-- **Issue #49**: Context auto-compact functionality stuck at 0% completion (macOS)
-- **Issue #46**: JavaScript heap out of memory during large MCP operations
+- **Issue #49**: Context auto-compact functionality stuck at 0% completion on macOS platforms
+- **Issue #46**: JavaScript heap out of memory crashes during large MCP operations
 
-### New Configuration / Environment Variables
+### Changes
+- Added comprehensive memory optimization guide (`docs/MEMORY_OPTIMIZATION.md`)
+- Documented context buffer management strategies
+- Implemented memory threshold configurations
 
-#### Memory Configuration
-```yaml
-# Context Buffer Management
-claude.context_buffer_limit: "10MB"  # Default context buffer size
-claude.context_pruning_threshold: "80%"  # Auto-prune at 80% of buffer
+### New Configuration/Environment Variables
+- `CLAUDE_CONTEXT_BUFFER_LIMIT`: Default 10MB
+- `CLAUDE_CONTEXT_PRUNING_THRESHOLD`: 80% (automatic context cleanup)
+- `CLAUDE_STREAMING_CHUNK_SIZE`: 1MB for MCP operations
+- `CLAUDE_GARBAGE_COLLECTION_ENABLED`: true
 
-# Streaming Configuration
-claude.streaming.chunk_size: "1MB"  # Chunk size for large operations
-claude.streaming.enabled: true  # Enable streaming for MCP operations
+### Installation/Usage Instructions
+1. Clone or update repository from `hotfix/memory-optimization-v1.0.72` branch
+2. Environment variables are automatically applied when starting Claude Code
+3. Manual memory reset available via `/memory-reset` command
+4. Monitor memory usage via built-in logging (see `docs/MEMORY_OPTIMIZATION.md`)
 
-# Monitoring
-claude.memory_monitoring.enabled: true
-claude.memory_alert_threshold: "90%"
-```
+### Breaking Changes
+None - This is a bug fix that improves stability.
 
-### Installation / Usage Instructions
-
-#### Prerequisites
-- Claude Code v1.0.72 or later
-- Updated context management configuration
-
-#### Migration Steps
-1. Update your configuration file with new memory settings
-2. Verify context buffer limits are appropriate for your use case
-3. Test with large MCP operations to confirm streaming works correctly
-4. Monitor memory usage with the new monitoring tools
-
-#### Usage Examples
-```bash
-# Set context buffer limit
-claude config set context_buffer_limit 10MB
-
-# Enable automatic pruning
-claude config set context_pruning_threshold 80%
-
-# Reset context if needed
-claude /memory-reset
-```
+### Compatibility
+- Minimum supported version: v1.0.72
+- Tested on: macOS, Linux, Windows
 
 ---
 
-## PR #10 - Add label organization guide for visual organization
+## PR #10: Add label organization guide for visual organization
 
-### Title
-Add label organization guide for visual organization
+### Summary
+This PR introduces comprehensive label documentation for the repository, establishing a clear and organized labeling system with complete inventory of all 27 repository labels.
 
-### Summary of Changes
-Comprehensive label documentation establishing a clear and organized labeling system with:
-- Complete inventory of all 27 repository labels
-- Categorization by type and purpose
-- Detailed descriptions for each label
-- Usage guidelines and best practices
+### Changes
+- Created `docs/LABEL_COLORS.md` with complete guide to label organization
+- Documented all 27 repository labels
+- Organized labels by category (issue-type, platform, area, status, priority, contribution, documentation)
+- Provided usage guidelines for each label category
 
-### Key Changes
-- **New Documentation**: `docs/LABEL_COLORS.md`
-- **Visual Organization**: Enhanced issue organization through consistent labeling
-- **Organization Guide**: Structured categorization for easy reference
+### New Configuration/Environment Variables
+None - This is a documentation-only PR.
 
-### New Configuration / Environment Variables
-None - This is a documentation-only PR
+### Installation/Usage Instructions
+1. Review the label guide at `docs/LABEL_COLORS.md`
+2. Apply labels consistently across issues and pull requests
+3. Use the guide for team onboarding and process alignment
 
-### Installation / Usage Instructions
-- Access the label guide at `docs/LABEL_COLORS.md`
-- Review the complete inventory and categorization
-- Follow best practices for label consistency
-- Use the visual improvement features for better issue triage
+### Breaking Changes
+None - This is a documentation-only PR.
+
+### Compatibility
+Compatible with all existing issues and pull requests.
+
+---
+
+## Migration Recommendations
+
+### For Users
+1. Update to v1.0.72 to receive memory optimization fixes from PR #16
+2. Review new label organization in PR #23/PR #10 for better issue tracking
+3. Monitor memory usage with new optimization features
+
+### For Developers
+1. Follow new label guidelines when creating issues
+2. Use memory optimization configurations for large MCP operations
+3. Reference label documentation for consistent workflow
+
+### Platform-Specific Considerations
+- **macOS**: Priority upgrade due to context auto-compact issue (#49)
+- **Linux**: Memory optimizations apply across all platforms
+- **Windows**: General stability improvements included
 
 ---
 
-## Migration Summary
-
-### Recommended Upgrade Path
-1. **Review all PRs**: Familiarize yourself with the changes in each pending PR
-2. **PR #23** (Label Guide): Review first to understand new labeling system
-3. **PR #10** (Label Organization): Complement to PR #23, update your workflows
-4. **PR #16** (Memory Hotfix): Critical - apply for memory stability
-
-### Potential Breaking Changes
-- **None**: All pending PRs are either documentation updates or bug fixes
-- No breaking configuration changes expected
-- Backward compatible with existing configurations
-
-### Configuration Changes Summary
-| Feature | New Configuration | Default Value |
-|---------|-------------------|---------------|
-| Context Buffer Limit | `claude.context_buffer_limit` | 10MB |
-| Context Pruning Threshold | `claude.context_pruning_threshold` | 80% |
-| Streaming Chunk Size | `claude.streaming.chunk_size` | 1MB |
-| Memory Monitoring | `claude.memory_monitoring.enabled` | true |
-
-### Next Steps
-- Review detailed documentation in each PR
-- Test memory optimizations if upgrading
-- Adopt new labeling conventions
-- Monitor for any issues after migration
+## Related Documentation
+- `docs/MEMORY_OPTIMIZATION.md`: Comprehensive memory management guide
+- `docs/LABEL_COLORS.md`: Complete label organization guide
 
 ---
-*Last Updated: Based on current open PRs*
+
+## Status
+- **PR #16**: Ready for merge (addresses critical memory issues)
+- **PR #23**: Ready for merge (label documentation)
+- **PR #10**: Ready for merge (label documentation)
+
+**Note**: PR #23 and PR #10 are complementary label documentation PRs and may be merged together or sequentially.
