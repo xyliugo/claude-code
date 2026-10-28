@@ -1,23 +1,17 @@
 # Claude AI Collaboration Analysis
 
-This document provides a comprehensive analysis of collaboration patterns between human developers and Claude AI in the repository.
-
 ## Summary Statistics
 
-Total commits analyzed: 6
+Total commits analyzed: 12
 Number of Claude co-authored commits found: 0
 Percentage of commits with Claude collaboration: 0%
 Number of unique human collaborators who worked with Claude: 0
 
 ## Top Claude Collaborators
 
-```markdown
 | Developer | GitHub Username | Claude Collaborations |
 |-----------|----------------|----------------------|
-```
 
-**Note**: No commits with Claude co-authorship were found in this repository. All commits were authored by human developers without Claude assistance.
+*No Claude co-authored commits were found in the repository history.*
 
----
-
-*Report generated automatically through automated commit history analysis.*
+*Note: This analysis examined all 12 commits reachable from the main branch. The Co-Authored-By trailer search was performed case-insensitively for both "Co-Authored-By" and "Co-authored-by" formats.*
