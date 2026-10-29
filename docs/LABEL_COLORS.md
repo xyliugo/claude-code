@@ -30,6 +30,7 @@ This guide documents all labels used in this repository, organized by category f
 | needs-approval | status | The issue requires approval from stakeholders before proceeding |
 | wip | status | Work in progress - the issue is actively being worked on |
 | waiting-on-decision | status | Waiting for a decision or clarification before proceeding |
+| hotfix | status | Indicates a hotfix is being worked on or deployed |
 | good-first-issue | status | A beginner-friendly issue suitable for new contributors |
 | help-wanted | status | The issue needs additional help from the community |
 
@@ -62,6 +63,7 @@ This guide documents all labels used in this repository, organized by category f
 - Use **needs-approval** when stakeholder approval is required before proceeding
 - Use **wip** for active development work in progress
 - Use **waiting-on-decision** when clarification or decisions are needed
+- Use **hotfix** when the issue is related to a hotfix deployment or emergency fix
 - Use **good-first-issue** for beginner-friendly issues (typically small, well-scoped tasks)
 - Use **help-wanted** when additional contributors are needed
 
