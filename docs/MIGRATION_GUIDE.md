@@ -1,109 +1,220 @@
 # Migration Guide for Pending Features
 
-This document outlines the migration path and implementation details for all open pull requests in the repository.
+This guide provides detailed information about all open pull requests that contain pending features, configuration changes, or migration requirements.
+
+## PR Overview
+
+This migration guide analyzes **2 open pull requests** that require attention.
 
 ---
 
 ## PR #16: HOTFIX: Critical memory optimization for issues #49 and #46
 
 ### Summary
-This hotfix implements critical memory optimization changes to address severe context management and JavaScript heap exhaustion issues affecting Claude Code v1.0.72.
+Critical memory optimization hotfix addressing severe context management and JavaScript heap exhaustion issues affecting Claude Code v1.0.72.
 
 ### Critical Issues Addressed
-- **Issue #49**: Context auto-compact functionality stuck at 0% completion on macOS platforms
-- **Issue #46**: JavaScript heap out of memory crashes during large MCP operations
+- **Issue #49**: Context auto-compact functionality was stuck at 0% completion, making the tool unusable on macOS platforms
+- **Issue #46**: JavaScript heap out of memory crashes during large MCP operations caused complete application failures
 
-### Summary of Changes
+### Changes Overview
 - Added comprehensive memory optimization guide (`docs/MEMORY_OPTIMIZATION.md`)
 - Documented context buffer management strategies
-- Implemented memory threshold configurations
-- Added automatic context pruning at 80% threshold
-- Implemented streaming data processing for 1MB chunk operations
-- Enhanced garbage collection optimization
+- Added configuration options for memory thresholds
+- Implements progressive context cleanup and streaming optimization
 
-### New Configuration or Environment Variables
-- `CLAUDE_CONTEXT_BUFFER_LIMIT`: Default 10MB
-- `CLAUDE_CONTEXT_PRUNING_THRESHOLD`: 80% (automatic context cleanup)
-- `CLAUDE_STREAMING_CHUNK_SIZE`: 1MB for MCP operations
-- `CLAUDE_GARBAGE_COLLECTION_ENABLED`: true
+### New Configuration Options
 
-### Installation or Usage Instructions
-1. Clone or update repository from `hotfix/memory-optimization-v1.0.72` branch
-2. Environment variables are automatically applied when starting Claude Code
-3. Manual memory reset available via `/memory-reset` command
-4. Monitor memory usage via built-in logging (see `docs/MEMORY_OPTIMIZATION.md`)
-5. Verify context auto-compact functionality on macOS platforms
+The following configuration options are now available in `claude-code.json`:
+
+```json
+{
+  "memory": {
+    "contextBufferLimit": "10MB",
+    "autoCompactThreshold": 0.8,
+    "streamingChunkSize": "1MB",
+    "gcOptimization": true
+  }
+}
+```
+
+#### Configuration Details
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| contextBufferLimit | string | "10MB" | Maximum size of context buffer before pruning |
+| autoCompactThreshold | number | 0.8 | Threshold (0-1) at which automatic context compaction triggers |
+| streamingChunkSize | string | "1MB" | Size of chunks for streaming data processing |
+| gcOptimization | boolean | true | Enable garbage collection optimization |
+
+### Installation and Usage
+
+#### Installation
+Ensure you have the latest version of Claude Code installed:
+
+```bash
+# Update to v1.0.72 or later
+npm install -g @xyliugo/claude-code@latest
+```
+
+#### Configuration
+Add the following to your `claude-code.json` configuration file:
+
+```json
+{
+  "memory": {
+    "contextBufferLimit": "10MB",
+    "autoCompactThreshold": 0.8,
+    "streamingChunkSize": "1MB",
+    "gcOptimization": true
+  }
+}
+```
+
+#### Usage
+After configuration:
+1. Restart Claude Code application
+2. Verify memory settings in the UI under Settings > Memory
+3. Use the `/memory-reset` command to manually reset context if needed
+
+### Environment Variables
+
+No specific environment variables required for memory optimization features.
 
 ### Breaking Changes
-None - This is a bug fix that improves stability.
+- None. This is a backwards-compatible hotfix.
 
-### Compatibility
-- Minimum supported version: v1.0.72
-- Tested on: macOS, Linux, Windows
+### Migration Steps
+1. Update to Claude Code v1.0.72 or later
+2. Review existing `claude-code.json` configuration
+3. Add memory configuration section if missing
+4. Restart the application
+
+### Related Issues
+- Addresses: #49, #46
+- Tracked in: #38
 
 ---
 
 ## PR #10: Add label organization guide for visual organization
 
 ### Summary
-This PR introduces comprehensive label documentation for the repository, establishing a clear and organized labeling system with complete inventory of all repository labels.
+Comprehensive label organization documentation to improve visual organization and make it easier for contributors to understand and use labels consistently across issues and pull requests.
 
-### Summary of Changes
-- Created `docs/LABEL_COLORS.md` with complete guide to label organization
-- Documented all existing repository labels
-- Organized labels by category (issue-type, platform, area, status, priority, contribution, documentation)
-- Provided usage guidelines for each label category
-- Added visual organization structure recommendations
+### Changes Overview
+- Added `docs/LABEL_COLORS.md` with complete label organization guide
+- Documented all 27 existing labels in the repository
+- Organized labels by category: issue-type, area, platform, status, performance, and priority
+- Included usage guidelines for each label category
+- Provided clear descriptions for each label's purpose
 
-### New Configuration or Environment Variables
-None - This is a documentation-only PR.
+### Label Categories
 
-### Installation or Usage Instructions
-1. Review the label guide at `docs/LABEL_COLORS.md`
-2. Apply labels consistently across issues and pull requests
-3. Use the guide for team onboarding and process alignment
-4. Follow the categorization guidelines for consistent labeling
+#### Issue-Type Labels
+| Label | Color | Usage |
+|-------|-------|-------|
+| bug | d73a4a | Something isn't working |
+| enhancement | a2eeef | New feature or request |
+| wontfix |ffffff | This will not be worked on |
+| question |d876e3 | Further information is requested |
+
+#### Platform Labels
+| Label | Color | Usage |
+|-------|-------|-------|
+| macOS | edededed | macOS-specific issues |
+| iOS | edededed | iOS-specific issues |
+| web | edededed | Web platform issues |
+| platform | edededed | Platform-related issues |
+
+#### Area Labels
+| Label | Color | Usage |
+|-------|-------|-------|
+| memory | edededed | Memory-related issues |
+| context | edededed | Context management issues |
+| hooks | edededed | Hook-related issues |
+
+#### Status Labels
+| Label | Color | Usage |
+|-------|-------|-------|
+| critical | edededed | Critical priority issues |
+| in-progress | edededed | Currently being worked on |
+| blocked | edededed | Blocked on other issues |
+| needs-review | edededed | Requires review |
+| needs-approval | edededed | Requires approval |
+| wip | edededed | Work in progress |
+| waiting-on-decision | edededed | Waiting for decision |
+
+#### Workflow Labels
+| Label | Color | Usage |
+|-------|-------|-------|
+| feature | edededed | Feature implementation |
+| task | edededed | Task or to-do |
+| frontend | edededed | Frontend work |
+| backend | edededed | Backend work |
+| testing | edededed | Testing related |
+
+#### Priority Labels
+| Label | Color | Usage |
+|-------|-------|-------|
+| hotfix | edededed | Urgent hotfix required |
+| good-first-issue | edededed | Good for new contributors |
+| help-wanted | edededed | Help needed from community |
+
+### Installation and Usage
+
+#### Viewing Labels
+Labels are automatically applied to issues and pull requests. View them in GitHub UI.
+
+#### Applying Labels
+When creating or editing an issue, select appropriate labels from the label picker.
+
+#### Best Practices
+1. Use **bug** for actual problems
+2. Use **critical** for urgent issues
+3. Use platform labels (macOS, iOS, web) for platform-specific issues
+4. Use status labels (in-progress, blocked, needs-review) appropriately
+5. Document label usage in `docs/LABEL_COLORS.md`
 
 ### Breaking Changes
-None - This is a documentation-only PR.
+- None. This is purely documentation.
 
-### Compatibility
-Compatible with all existing issues and pull requests.
+### Migration Steps
+1. Review existing issues and their labels
+2. Ensure consistent label usage
+3. Update team guidelines based on `docs/LABEL_COLORS.md`
 
----
-
-## Migration Recommendations
-
-### For Users
-1. Update to latest version to receive memory optimization fixes from PR #16
-2. Review new label organization in PR #10 for better issue tracking
-3. Monitor memory usage with new optimization features
-4. Be aware of the `/memory-reset` command for manual memory management
-
-### For Developers
-1. Follow new label guidelines when creating issues
-2. Use memory optimization configurations for large MCP operations
-3. Reference label documentation for consistent workflow
-4. Consider memory thresholds when designing large-scale operations
-
-### Platform-Specific Considerations
-- **macOS**: Priority upgrade due to context auto-compact issue (#49)
-- **Linux**: Memory optimizations apply across all platforms
-- **Windows**: General stability improvements included
+### Related Issues
+- Fixes: #34
+- Related: #13 (label organization tracking)
 
 ---
 
-## Related Documentation
-- `docs/MEMORY_OPTIMIZATION.md`: Comprehensive memory management guide
-- `docs/LABEL_COLORS.md`: Complete label organization guide
-- `CHANGELOG-GENERATED.md`: Recent fixes and statistics
-- `reports/ISSUE_ANALYSIS.md`: Detailed issue analysis
-- `reports/PR_INTEGRATION_PLAN.md`: PR integration strategy
+## Configuration Summary
+
+### Recommended Configuration Changes
+
+| Feature | Required | Priority | Notes |
+|---------|----------|----------|-------|
+| Memory optimization | Optional | High | Recommended for all users |
+| Label organization | N/A | Medium | Documentation only |
+
+### Version Compatibility
+
+- **PR #16**: Requires Claude Code v1.0.72+
+- **PR #10**: No version requirements
+
+### Testing Recommendations
+
+1. Test memory optimization with large MCP operations
+2. Verify context auto-compact functionality
+3. Check streaming data processing with large datasets
+4. Review label consistency across issues
 
 ---
 
-## Status
-- **PR #16**: Ready for merge (addresses critical memory issues)
-- **PR #10**: Ready for merge (label documentation)
+## Support and Feedback
 
-**Note**: PR #16 should be prioritized as it addresses critical stability issues affecting user workflows.
+For questions about migration or configuration:
+- Open an issue with the appropriate labels
+- Refer to `docs/MEMORY_OPTIMIZATION.md` for memory-related questions
+- Refer to `docs/LABEL_COLORS.md` for label usage questions
