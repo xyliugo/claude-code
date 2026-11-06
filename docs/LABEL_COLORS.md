@@ -11,6 +11,7 @@ Labels are organized into the following categories based on their purpose:
 | Label Name | Category | Description |
 |------------|----------|-------------|
 | bug | issue-type | Something isn't working |
+| documentation | issue-type | Improvements or additions to documentation |
 | enhancement | issue-type | New feature or request |
 | feature | issue-type | Feature implementation |
 | task | issue-type | A task that needs to be completed |
@@ -52,6 +53,7 @@ Labels are organized into the following categories based on their purpose:
 ### Issue Type Labels
 
 - **bug**: Apply to any issue describing incorrect behavior, broken functionality, or errors
+- **documentation**: Apply to improvements or additions to documentation
 - **enhancement**: Apply to suggestions for new features or improvements to existing functionality
 - **feature**: Apply to implementations of new features or capabilities
 - **task**: Apply to specific tasks that need to be completed as part of a larger project
